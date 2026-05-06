@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loading Content...</title>
+  <meta name="description" content="Click to view the full article and exclusive content." />
+  <meta property="og:title" content="View Full Article — SenpaiDaily BD" />
+  <meta property="og:description" content="Click to read the full post on SenpaiDaily BD." />
+  <meta property="og:type" content="website" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #0d0f14;
+      --surface: #151820;
+      --border:  #252a38;
+      --accent:  #4f8ef7;
+      --accent2: #a78bfa;
+      --text:    #e8eaf0;
+      --muted:   #6b7280;
+      --success: #34d399;
+      --font:    'Tahoma', 'Geneva', 'Verdana', sans-serif;
+    }
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); overflow: hidden; }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(79,142,247,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,247,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: gridDrift 20s linear infinite;
+      pointer-events: none; z-index: 0;
+    }
+    @keyframes gridDrift { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+
+    .glow-orb { position: fixed; border-radius: 50%; filter: blur(90px); opacity: .18; pointer-events: none; z-index: 0; animation: orbFloat 8s ease-in-out infinite alternate; }
+    .glow-orb.one { width: 420px; height: 420px; background: var(--accent);  top: -80px; left: -80px; }
+    .glow-orb.two { width: 340px; height: 340px; background: var(--accent2); bottom: -60px; right: -60px; animation-delay: -4s; }
+    @keyframes orbFloat { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,20px) scale(1.08); } }
+
+    .card {
+      position: relative; z-index: 1;
+      width: min(430px, 92vw);
+      margin: 0 auto; top: 50%; transform: translateY(-50%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 42px 38px 36px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.03), 0 30px 80px rgba(0,0,0,.55), 0 0 60px rgba(79,142,247,.06);
+      animation: cardIn .6s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes cardIn { from { opacity:0; transform: translateY(calc(-50% + 28px)); } to { opacity:1; transform: translateY(-50%); } }
+
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+    .brand-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; box-shadow: 0 4px 14px rgba(79,142,247,.35);
+    }
+    .brand-name { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .brand-sub  { font-size: 10px; color: var(--muted); letter-spacing: .04em; margin-top: 2px; }
+
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin-bottom: 26px; }
+
+    .status-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.22);
+      border-radius: 99px; padding: 4px 12px;
+      font-size: 11px; color: var(--success); letter-spacing: .04em; margin-bottom: 18px;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(.7)} }
+
+    h1 { font-size: 18px; font-weight: 700; line-height: 1.38; margin-bottom: 9px; }
+    .subtitle { font-size: 12.5px; color: var(--muted); line-height: 1.65; margin-bottom: 28px; }
+
+    .progress-wrap { background: rgba(255,255,255,.05); border-radius: 99px; height: 5px; overflow: hidden; margin-bottom: 9px; }
+    .progress-bar  { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 0 10px rgba(79,142,247,.6); transition: width .1s linear; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 26px; }
+    #pct { color: var(--accent); font-weight: 700; }
+
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      width: 100%; padding: 14px 20px; border-radius: 11px; border: none; cursor: pointer;
+      font-family: var(--font); font-size: 14px; font-weight: 700; letter-spacing: .03em;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: #fff; box-shadow: 0 6px 24px rgba(79,142,247,.35);
+      transition: transform .15s, box-shadow .15s; text-decoration: none;
+      position: relative; overflow: hidden;
+    }
+    .btn::after { content:''; position:absolute; inset:0; background: linear-gradient(rgba(255,255,255,.13), transparent); border-radius: inherit; }
+    .btn:hover  { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(79,142,247,.45); }
+    .btn:active { transform: translateY(0);    box-shadow: 0 4px 14px rgba(79,142,247,.28); }
+    .btn-arrow  { font-size: 17px; transition: transform .2s; }
+    .btn:hover .btn-arrow { transform: translateX(4px); }
+
+    #auto-msg { font-size: 11px; color: var(--success); text-align: center; margin-top: 13px; min-height: 16px; opacity: 0; transition: opacity .3s; }
+
+    .footer-note { margin-top: 20px; font-size: 10.5px; color: var(--muted); text-align: center; line-height: 1.7; }
+    .footer-note a { color: var(--accent); text-decoration: none; }
+    .footer-note a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="glow-orb one"></div>
+<div class="glow-orb two"></div>
+
+<div class="card">
+  <div class="brand">
+    <div class="brand-icon">✦</div>
+    <div>
+      <div class="brand-name">SenpaiDaily BD</div>
+      <div class="brand-sub">Content Gateway</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="status-chip"><div class="dot"></div> Secure Link Verified</div>
+
+  <h1>You're being redirected to the full article</h1>
+  <p class="subtitle">This secure gateway ensures safe access to our content. Your redirect will begin automatically in a moment.</p>
+
+  <div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>
+  <div class="progress-label">
+    <span>Preparing content…</span>
+    <span><span id="pct">0</span>%</span>
+  </div>
+
+  <a id="cta" class="btn" href="#" target="_self">
+    <span>Continue to Article</span>
+    <span class="btn-arrow">→</span>
+  </a>
+
+  <div id="auto-msg"></div>
+
+  <div class="footer-note">
+    Content by <a href="https://senpaidailybd.blogspot.com" target="_blank">SenpaiDaily BD</a>
+    &nbsp;·&nbsp; Safe &amp; verified redirect
+  </div>
+</div>
+
+<script>
+  // ════════════════════════════════════════════════
+  //  ★  ADVANCED DYNAMIC & SECURE REDIRECT (UPDATED)
+  // ════════════════════════════════════════════════
+  
+  const params = new URLSearchParams(window.location.search);
+  const rawUrl = params.get('url');
+  
+  // ১. ডোমেইন লক সিকিউরিটি (আপনার সাইট ছাড়া অন্য লিঙ্ক কাজ করবে না)
+  const MY_DOMAIN = "senpaidailybd.blogspot.com";
+  const DEFAULT_SITE = "https://" + MY_DOMAIN;
+  
+  let DEST_URL = DEFAULT_SITE;
+
+  // লিঙ্ক চেক এবং ভেরিফাই করা হচ্ছে
+  if (rawUrl && rawUrl.includes(MY_DOMAIN)) {
+      DEST_URL = rawUrl;
+      
+      // ২. ডাইনামিক টাইটেল (পোস্টের নাম অনুযায়ী পেজের টাইটেল পরিবর্তন হবে)
+      try {
+          const urlObj = new URL(rawUrl);
+          const postName = urlObj.pathname.split('/').pop().replace('.html', '').replace(/-/g, ' ');
+          if (postName) document.title = postName.toUpperCase() + " | SenpaiDaily BD";
+      } catch(e) {}
+  }
+
+  const bar = document.getElementById('bar');
+  const pct = document.getElementById('pct');
+  const cta = document.getElementById('cta');
+  const msg = document.getElementById('auto-msg');
+
+  // ৩. ডাইনামিক লিঙ্ক বাটনে সেট করা হলো
+  cta.href = DEST_URL;
+
+  let progress = 0;
+  const DURATION = 4000; // ৪ সেকেন্ডের অ্যান্টি-বট ডিলে
+  const INTERVAL = 40;
+  const STEP = 100 / (DURATION / INTERVAL);
+
+  // ৪. অটো-রিডাইরেক্ট ফাংশন
+  const timer = setInterval(() => {
+    progress = Math.min(progress + STEP, 100);
+    bar.style.width = progress + '%';
+    pct.textContent = Math.floor(progress);
+    
+    if (progress >= 100) {
+      clearInterval(timer);
+      msg.style.opacity = '1';
+      msg.textContent = '✓ Redirecting now…';
+      
+      // ১০০% হওয়ার পর নিজে থেকেই মূল পোস্টে নিয়ে যাবে
+      setTimeout(() => { window.location.href = DEST_URL; }, 300);
+    }
+  }, INTERVAL);
+
+  cta.addEventListener('click', () => clearInterval(timer));
+</script>
+</body>
+</html>
