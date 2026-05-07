@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Loading Content...</title>
-  <meta name="description" content="Click to view the full article and exclusive content." />
-  <meta property="og:title" content="View Full Article — SenpaiDaily BD" />
-  <meta property="og:description" content="Click to read the full post on SenpaiDaily BD." />
+  <title>SenpaiDaily BD — Content Verification</title>
+  <meta name="description" content="Verifying your access to SenpaiDaily BD content. Please wait a moment." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="SenpaiDaily BD — Content Verification" />
+  <meta property="og:description" content="Please wait while we verify your access." />
   <meta property="og:type" content="website" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,6 +20,7 @@
       --text:    #e8eaf0;
       --muted:   #6b7280;
       --success: #34d399;
+      --warn:    #fbbf24;
       --font:    'Tahoma', 'Geneva', 'Verdana', sans-serif;
     }
     html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font); overflow: hidden; }
@@ -40,31 +42,39 @@
     .glow-orb.two { width: 340px; height: 340px; background: var(--accent2); bottom: -60px; right: -60px; animation-delay: -4s; }
     @keyframes orbFloat { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,20px) scale(1.08); } }
 
-    .card {
+    /* ── Scrollable wrapper ── */
+    .page-wrap {
       position: relative; z-index: 1;
-      width: min(430px, 92vw);
-      margin: 0 auto; top: 50%; transform: translateY(-50%);
+      height: 100%; overflow-y: auto;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .card {
+      width: min(440px, 100%);
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 42px 38px 36px;
+      padding: 38px 36px 32px;
       box-shadow: 0 0 0 1px rgba(255,255,255,.03), 0 30px 80px rgba(0,0,0,.55), 0 0 60px rgba(79,142,247,.06);
       animation: cardIn .6s cubic-bezier(.22,1,.36,1) both;
     }
-    @keyframes cardIn { from { opacity:0; transform: translateY(calc(-50% + 28px)); } to { opacity:1; transform: translateY(-50%); } }
+    @keyframes cardIn { from { opacity:0; transform: translateY(28px); } to { opacity:1; transform: translateY(0); } }
 
-    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+    /* ── Brand ── */
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
     .brand-icon {
       width: 38px; height: 38px; border-radius: 10px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; box-shadow: 0 4px 14px rgba(79,142,247,.35);
+      font-size: 18px; box-shadow: 0 4px 14px rgba(79,142,247,.35); flex-shrink: 0;
     }
     .brand-name { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
     .brand-sub  { font-size: 10px; color: var(--muted); letter-spacing: .04em; margin-top: 2px; }
 
-    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin-bottom: 26px; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin-bottom: 22px; }
 
+    /* ── Status chip ── */
     .status-chip {
       display: inline-flex; align-items: center; gap: 6px;
       background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.22);
@@ -74,34 +84,88 @@
     .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); animation: pulse 1.4s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(.7)} }
 
-    h1 { font-size: 18px; font-weight: 700; line-height: 1.38; margin-bottom: 9px; }
-    .subtitle { font-size: 12.5px; color: var(--muted); line-height: 1.65; margin-bottom: 28px; }
+    /* ── Category badge ── */
+    .cat-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; min-height: 0; }
+    .cat-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(79,142,247,.10); border: 1px solid rgba(79,142,247,.25);
+      border-radius: 6px; padding: 4px 10px;
+      font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .cat-badge svg { width: 11px; height: 11px; opacity: .8; }
 
-    .progress-wrap { background: rgba(255,255,255,.05); border-radius: 99px; height: 5px; overflow: hidden; margin-bottom: 9px; }
-    .progress-bar  { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 0 10px rgba(79,142,247,.6); transition: width .1s linear; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 26px; }
+    /* ── Post meta strip ── */
+    .meta-strip {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 14px; flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 10.5px; color: var(--muted);
+    }
+    .meta-item svg { width: 11px; height: 11px; }
+
+    /* ── Post title ── */
+    h1 { font-size: 16px; font-weight: 700; line-height: 1.45; margin-bottom: 8px; color: var(--text); }
+    .subtitle { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 26px; }
+
+    /* ── Timer ring + number ── */
+    .timer-wrap {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,.03); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; margin-bottom: 20px;
+    }
+    .ring-svg { width: 46px; height: 46px; flex-shrink: 0; transform: rotate(-90deg); }
+    .ring-bg   { fill: none; stroke: rgba(255,255,255,.07); stroke-width: 4; }
+    .ring-fill { fill: none; stroke: url(#ringGrad); stroke-width: 4; stroke-linecap: round;
+                 stroke-dasharray: 126; stroke-dashoffset: 126; transition: stroke-dashoffset .1s linear; }
+    .ring-num {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: var(--accent); font-family: var(--font);
+    }
+    .ring-container { position: relative; width: 46px; height: 46px; flex-shrink: 0; }
+    .timer-text-col { flex: 1; }
+    .timer-label { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .timer-sub   { font-size: 10.5px; color: var(--muted); }
+
+    /* ── Progress bar ── */
+    .progress-wrap { background: rgba(255,255,255,.05); border-radius: 99px; height: 4px; overflow: hidden; margin-bottom: 8px; }
+    .progress-bar  { height: 100%; width: 0%; border-radius: 99px;
+                     background: linear-gradient(90deg, var(--accent), var(--accent2));
+                     box-shadow: 0 0 10px rgba(79,142,247,.6); transition: width .1s linear; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); margin-bottom: 22px; }
     #pct { color: var(--accent); font-weight: 700; }
 
+    /* ── Button ── */
     .btn {
       display: flex; align-items: center; justify-content: center; gap: 9px;
-      width: 100%; padding: 14px 20px; border-radius: 11px; border: none; cursor: pointer;
-      font-family: var(--font); font-size: 14px; font-weight: 700; letter-spacing: .03em;
+      width: 100%; padding: 13px 20px; border-radius: 11px; border: none; cursor: pointer;
+      font-family: var(--font); font-size: 13.5px; font-weight: 700; letter-spacing: .03em;
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
       color: #fff; box-shadow: 0 6px 24px rgba(79,142,247,.35);
-      transition: transform .15s, box-shadow .15s; text-decoration: none;
+      transition: transform .15s, box-shadow .15s, opacity .2s; text-decoration: none;
       position: relative; overflow: hidden;
     }
     .btn::after { content:''; position:absolute; inset:0; background: linear-gradient(rgba(255,255,255,.13), transparent); border-radius: inherit; }
-    .btn:hover  { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(79,142,247,.45); }
-    .btn:active { transform: translateY(0);    box-shadow: 0 4px 14px rgba(79,142,247,.28); }
-    .btn-arrow  { font-size: 17px; transition: transform .2s; }
-    .btn:hover .btn-arrow { transform: translateX(4px); }
+    .btn.locked { opacity: .45; cursor: not-allowed; pointer-events: none; }
+    .btn:not(.locked):hover  { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(79,142,247,.45); }
+    .btn:not(.locked):active { transform: translateY(0); }
+    .btn-arrow { font-size: 17px; transition: transform .2s; }
+    .btn:not(.locked):hover .btn-arrow { transform: translateX(4px); }
 
-    #auto-msg { font-size: 11px; color: var(--success); text-align: center; margin-top: 13px; min-height: 16px; opacity: 0; transition: opacity .3s; }
+    #auto-msg { font-size: 11px; color: var(--success); text-align: center; margin-top: 12px; min-height: 16px; opacity: 0; transition: opacity .3s; }
 
-    .footer-note { margin-top: 20px; font-size: 10.5px; color: var(--muted); text-align: center; line-height: 1.7; }
+    .footer-note { margin-top: 18px; font-size: 10.5px; color: var(--muted); text-align: center; line-height: 1.7; }
     .footer-note a { color: var(--accent); text-decoration: none; }
     .footer-note a:hover { text-decoration: underline; }
+
+    /* ── Skeleton shimmer (while loading meta) ── */
+    .skel { border-radius: 6px; background: linear-gradient(90deg, var(--border) 25%, rgba(255,255,255,.06) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skel-line { height: 12px; margin-bottom: 8px; }
+    .skel-line.short { width: 55%; }
+    .skel-line.long  { width: 85%; }
   </style>
 </head>
 <body>
@@ -109,97 +173,268 @@
 <div class="glow-orb one"></div>
 <div class="glow-orb two"></div>
 
+<div class="page-wrap">
 <div class="card">
+
+  <!-- Brand -->
   <div class="brand">
     <div class="brand-icon">✦</div>
     <div>
       <div class="brand-name">SenpaiDaily BD</div>
-      <div class="brand-sub">Content Gateway</div>
+      <div class="brand-sub">Content Verification Gateway</div>
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <div class="status-chip"><div class="dot"></div> Secure Link Verified</div>
+  <div class="status-chip"><div class="dot"></div> <span id="chip-text">Verifying Link…</span></div>
 
-  <h1>You're being redirected to the full article</h1>
-  <p class="subtitle">This secure gateway ensures safe access to our content. Your redirect will begin automatically in a moment.</p>
+  <!-- Dynamic category badges -->
+  <div class="cat-row" id="cat-row" style="display:none"></div>
+
+  <!-- Dynamic post meta -->
+  <div class="meta-strip" id="meta-strip" style="display:none">
+    <div class="meta-item" id="meta-date">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M5 1v4M11 1v4M2 7h12"/></svg>
+      <span id="meta-date-val">—</span>
+    </div>
+    <div class="meta-item">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+      <span id="meta-read-val">—</span>
+    </div>
+  </div>
+
+  <!-- Skeleton while fetching -->
+  <div id="skeleton">
+    <div class="skel skel-line long"></div>
+    <div class="skel skel-line short"></div>
+  </div>
+
+  <!-- Post title (filled dynamically) -->
+  <h1 id="post-title" style="display:none"></h1>
+  <p class="subtitle" id="post-desc" style="display:none"></p>
+
+  <!-- Timer ring -->
+  <div class="timer-wrap">
+    <div class="ring-container">
+      <svg class="ring-svg" viewBox="0 0 46 46">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#4f8ef7"/>
+            <stop offset="100%" stop-color="#a78bfa"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-bg"   cx="23" cy="23" r="20"/>
+        <circle class="ring-fill" id="ring" cx="23" cy="23" r="20"/>
+      </svg>
+      <div class="ring-num" id="ring-num">30</div>
+    </div>
+    <div class="timer-text-col">
+      <div class="timer-label" id="timer-label">Please wait 30 seconds</div>
+      <div class="timer-sub">Auto-redirect will begin after verification</div>
+    </div>
+  </div>
 
   <div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>
   <div class="progress-label">
-    <span>Preparing content…</span>
+    <span id="prog-label">Verifying content…</span>
     <span><span id="pct">0</span>%</span>
   </div>
 
-  <a id="cta" class="btn" href="#" target="_self">
-    <span>Continue to Article</span>
+  <a id="cta" class="btn locked" href="#" target="_self">
+    <span id="btn-text">Please wait…</span>
     <span class="btn-arrow">→</span>
   </a>
 
   <div id="auto-msg"></div>
 
   <div class="footer-note">
-    Content by <a href="https://senpaidailybd.blogspot.com" target="_blank">SenpaiDaily BD</a>
-    &nbsp;·&nbsp; Safe &amp; verified redirect
+    Verified content from <a href="https://senpaidailybd.blogspot.com" target="_blank">SenpaiDaily BD</a>
+    &nbsp;·&nbsp; Safe &amp; secure link
   </div>
+
+</div>
 </div>
 
 <script>
-  // ════════════════════════════════════════════════
-  //  ★  ADVANCED DYNAMIC & SECURE REDIRECT (UPDATED)
-  // ════════════════════════════════════════════════
-  
-  const params = new URLSearchParams(window.location.search);
-  const rawUrl = params.get('url');
-  
-  // ১. ডোমেইন লক সিকিউরিটি (আপনার সাইট ছাড়া অন্য লিঙ্ক কাজ করবে না)
-  const MY_DOMAIN = "senpaidailybd.blogspot.com";
-  const DEFAULT_SITE = "https://" + MY_DOMAIN;
-  
-  let DEST_URL = DEFAULT_SITE;
+// ═══════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════
+const MY_DOMAIN   = "senpaidailybd.blogspot.com";
+const DEFAULT_URL = "https://" + MY_DOMAIN + "/";
+const WAIT_SEC    = 15;   // 15 seconds
 
-  // লিঙ্ক চেক এবং ভেরিফাই করা হচ্ছে
-  if (rawUrl && rawUrl.includes(MY_DOMAIN)) {
-      DEST_URL = rawUrl;
-      
-      // ২. ডাইনামিক টাইটেল (পোস্টের নাম অনুযায়ী পেজের টাইটেল পরিবর্তন হবে)
-      try {
-          const urlObj = new URL(rawUrl);
-          const postName = urlObj.pathname.split('/').pop().replace('.html', '').replace(/-/g, ' ');
-          if (postName) document.title = postName.toUpperCase() + " | SenpaiDaily BD";
-      } catch(e) {}
+// Category map — URL keyword → display label + icon emoji
+// Add/remove as your blog grows
+const CATEGORY_MAP = [
+  { keys: ['anime'],      label: 'Anime',         icon: '🎌' },
+  { keys: ['manga'],      label: 'Manga',         icon: '📖' },
+  { keys: ['review'],     label: 'Review',        icon: '⭐' },
+  { keys: ['news'],       label: 'News',          icon: '📰' },
+  { keys: ['top','list'], label: 'Top List',      icon: '🏆' },
+  { keys: ['episode'],    label: 'Episode',       icon: '▶️'  },
+  { keys: ['character'],  label: 'Character',     icon: '👤' },
+  { keys: ['download'],   label: 'Download',      icon: '⬇️'  },
+  { keys: ['update'],     label: 'Update',        icon: '🔄' },
+  { keys: ['spoiler'],    label: 'Spoiler',       icon: '⚠️'  },
+  { keys: ['wallpaper'],  label: 'Wallpaper',     icon: '🖼️'  },
+  { keys: ['game'],       label: 'Game',          icon: '🎮' },
+  { keys: ['movie','film'],label:'Movie',         icon: '🎬' },
+];
+
+// ═══════════════════════════════════════════════════════
+//  URL RESOLUTION
+// ═══════════════════════════════════════════════════════
+const params  = new URLSearchParams(window.location.search);
+const rawUrl  = params.get('url');
+let   DEST    = DEFAULT_URL;
+let   isPost  = false;
+
+if (rawUrl) {
+  try {
+    const u = new URL(rawUrl);
+    if (u.hostname === MY_DOMAIN) { DEST = rawUrl; isPost = true; }
+  } catch(e) {}
+} else {
+  // Direct visit (no ?url=) → homepage itself needs verification too
+  DEST = DEFAULT_URL;
+}
+
+// ─── Elements ───────────────────────────────────────────
+const chipText  = document.getElementById('chip-text');
+const catRow    = document.getElementById('cat-row');
+const metaStrip = document.getElementById('meta-strip');
+const skeleton  = document.getElementById('skeleton');
+const titleEl   = document.getElementById('post-title');
+const descEl    = document.getElementById('post-desc');
+const ringEl    = document.getElementById('ring');
+const ringNum   = document.getElementById('ring-num');
+const timerLbl  = document.getElementById('timer-label');
+const bar       = document.getElementById('bar');
+const pct       = document.getElementById('pct');
+const cta       = document.getElementById('cta');
+const msg       = document.getElementById('auto-msg');
+const progLbl   = document.getElementById('prog-label');
+const btnText   = document.getElementById('btn-text');
+
+cta.href = DEST;
+
+// ─── Detect categories from URL ─────────────────────────
+function detectCategories(url) {
+  const lower = url.toLowerCase();
+  const found = [];
+  for (const cat of CATEGORY_MAP) {
+    if (cat.keys.some(k => lower.includes(k))) {
+      found.push(cat);
+      if (found.length >= 3) break; // max 3 badges
+    }
+  }
+  return found;
+}
+
+// ─── Format post title from URL slug ────────────────────
+function slugToTitle(url) {
+  try {
+    const u    = new URL(url);
+    const slug = u.pathname.split('/').filter(Boolean).pop() || '';
+    return slug.replace(/\.html?$/, '').replace(/[-_]/g, ' ')
+               .replace(/\b\w/g, c => c.toUpperCase()) || null;
+  } catch(e) { return null; }
+}
+
+// ─── Build UI ────────────────────────────────────────────
+function buildUI() {
+  chipText.textContent = 'Secure Link Verified';
+
+  // Categories
+  const cats = isPost ? detectCategories(DEST) : [];
+  if (cats.length) {
+    catRow.style.display = 'flex';
+    cats.forEach(c => {
+      const b = document.createElement('div');
+      b.className = 'cat-badge';
+      b.innerHTML = `<span>${c.icon}</span><span>${c.label}</span>`;
+      catRow.appendChild(b);
+    });
   }
 
-  const bar = document.getElementById('bar');
-  const pct = document.getElementById('pct');
-  const cta = document.getElementById('cta');
-  const msg = document.getElementById('auto-msg');
+  // Post title & description
+  skeleton.style.display = 'none';
+  const title = isPost ? slugToTitle(DEST) : 'SenpaiDaily BD — Homepage';
+  if (title) {
+    titleEl.textContent = title;
+    titleEl.style.display = 'block';
+    document.title = title + ' | SenpaiDaily BD';
+    descEl.textContent = isPost
+      ? 'You are being redirected to this post on SenpaiDaily BD. Please wait for verification to complete.'
+      : 'Redirecting you to SenpaiDaily BD. Verification in progress…';
+    descEl.style.display = 'block';
+  }
 
-  // ৩. ডাইনামিক লিঙ্ক বাটনে সেট করা হলো
-  cta.href = DEST_URL;
+  // Meta strip — date = today (since link was just shared)
+  metaStrip.style.display = 'flex';
+  const now = new Date();
+  document.getElementById('meta-date-val').textContent =
+    now.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  document.getElementById('meta-read-val').textContent = '~3 min read';
+}
 
-  let progress = 0;
-  const DURATION = 4000; // ৪ সেকেন্ডের অ্যান্টি-বট ডিলে
-  const INTERVAL = 40;
-  const STEP = 100 / (DURATION / INTERVAL);
+buildUI();
 
-  // ৪. অটো-রিডাইরেক্ট ফাংশন
-  const timer = setInterval(() => {
-    progress = Math.min(progress + STEP, 100);
-    bar.style.width = progress + '%';
-    pct.textContent = Math.floor(progress);
-    
-    if (progress >= 100) {
-      clearInterval(timer);
-      msg.style.opacity = '1';
-      msg.textContent = '✓ Redirecting now…';
-      
-      // ১০০% হওয়ার পর নিজে থেকেই মূল পোস্টে নিয়ে যাবে
-      setTimeout(() => { window.location.href = DEST_URL; }, 300);
-    }
-  }, INTERVAL);
+// ─── Countdown + Progress ────────────────────────────────
+const CIRCUMFERENCE = 2 * Math.PI * 20; // ≈ 125.66
+ringEl.style.strokeDasharray  = CIRCUMFERENCE;
+ringEl.style.strokeDashoffset = CIRCUMFERENCE;
 
-  cta.addEventListener('click', () => clearInterval(timer));
+let elapsed  = 0;
+const TOTAL_MS = WAIT_SEC * 1000;
+const TICK     = 50;
+
+// Staged progress labels
+const stages = [
+  { pct:  0, label: 'Verifying content…' },
+  { pct: 30, label: 'Checking link safety…' },
+  { pct: 55, label: 'Loading article data…' },
+  { pct: 78, label: 'Almost ready…' },
+  { pct: 92, label: 'Finalizing redirect…' },
+];
+
+const timer = setInterval(() => {
+  elapsed = Math.min(elapsed + TICK, TOTAL_MS);
+  const ratio   = elapsed / TOTAL_MS;
+  const progVal = Math.floor(ratio * 100);
+  const secLeft = Math.ceil((TOTAL_MS - elapsed) / 1000);
+
+  // Progress bar
+  bar.style.width   = progVal + '%';
+  pct.textContent   = progVal;
+
+  // Ring
+  ringEl.style.strokeDashoffset = CIRCUMFERENCE * (1 - ratio);
+  ringNum.textContent = secLeft > 0 ? secLeft : '✓';
+
+  // Timer label
+  timerLbl.textContent = secLeft > 0
+    ? `Please wait ${secLeft} second${secLeft !== 1 ? 's' : ''}…`
+    : 'Verification complete!';
+
+  // Stage labels
+  for (let i = stages.length - 1; i >= 0; i--) {
+    if (progVal >= stages[i].pct) { progLbl.textContent = stages[i].label; break; }
+  }
+
+  // Unlock button at 100%
+  if (elapsed >= TOTAL_MS) {
+    clearInterval(timer);
+    cta.classList.remove('locked');
+    btnText.textContent = 'Continue to ' + (isPost ? 'Article' : 'Website');
+    msg.style.opacity = '1';
+    msg.textContent = '✓ Verification complete — redirecting now…';
+    setTimeout(() => { window.location.href = DEST; }, 600);
+  }
+}, TICK);
+
+cta.addEventListener('click', () => clearInterval(timer));
 </script>
 </body>
 </html>
